@@ -1,4 +1,4 @@
-#[teamspeak.mariouher.com](ts3server://teamspeak.mariouher.com)
+#[tsjo.in](ts3server://tsjo.in)
 
 
 ## Requirements
@@ -14,11 +14,10 @@ For production use some cloud server is needed, in this case [DigitalOcean](http
 
 ## Installation
 
-First setup the docker host, and create the logs directory:
+First setup the docker host:
 
 ```sh
 docker-machine create --driver digitalocean --digitalocean-access-token TOKEN --digitalocean-region ams3 NAME
-docker-machine ssh NAME mkdir -p /data/teamspeak
 ```
 
 Afterwards the docker image must be build and started on this host:
@@ -26,7 +25,7 @@ Afterwards the docker image must be build and started on this host:
 ```sh
 $(docker-machine env NAME)
 docker build -t haihappen/teamspeak .
-docker run -p=9987:9987/udp -p=10011:10011 -p=30033:30033 --name=teamspeak -v /data/teamspeak:/home/data haihappen/teamspeak
+docker run -p=9987:9987/udp -p=10011:10011 -p=30033:30033 --name=teamspeak haihappen/teamspeak serveradmin_password=password
 ```
 
 
@@ -43,13 +42,13 @@ docker run -p=9987:9987/udp -p=10011:10011 -p=30033:30033 --name=teamspeak -v /d
 
    ```sh
    docker rm -f $(docker ps -qf name=teamspeak)
-   docker run -p=9987:9987/udp -p=10011:10011 -p=30033:30033 --name=teamspeak -v /data/teamspeak:/home/data haihappen/teamspeak
+   docker run -p=9987:9987/udp -p=10011:10011 -p=30033:30033 --name=teamspeak haihappen/teamspeak serveradmin_password=password
    ```
 
 
 ## License (The MIT License)
 
-Copyright (c) 2015 Mario Uher
+Copyright (c) 2015-2016 Mario Uher
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

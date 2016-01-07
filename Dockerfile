@@ -1,16 +1,18 @@
 FROM ubuntu:14.04
 MAINTAINER Mario Uher <uher.mario@gmail.com>
 
-WORKDIR /home/teamspeak
+WORKDIR /home
 
 RUN apt-get update && apt-get install -y curl
-RUN curl -LO http://dl.4players.de/ts/releases/3.0.11.4/teamspeak3-server_linux-amd64-3.0.11.4.tar.gz \
-    && tar --strip-components=1 -xvf teamspeak*.tar.gz \
-    && rm teamspeak*.tar.gz
 
-COPY docker-entrypoint.sh ./
+ENV TEAMSPEAK_VERSION=3.0.11.4
+RUN curl -LO http://dl.4players.de/ts/releases/$TEAMSPEAK_VERSION/teamspeak3-server_linux-amd64-$TEAMSPEAK_VERSION.tar.gz \
+    && tar --strip-components=1 -xvf teamspeak3-server_linux-amd64-$TEAMSPEAK_VERSION.tar.gz \
+    && rm teamspeak3-server_linux-amd64-$TEAMSPEAK_VERSION.tar.gz
 
-ENV LD_LIBRARY_PATH=. LOGPATH=/home/data/logs
-
+RUN touch ts3server.sqlitedb
+ENV LD_LIBRARY_PATH=.
 EXPOSE 9987/udp 10011 30033
-ENTRYPOINT ./docker-entrypoint.sh
+
+ENTRYPOINT ["./ts3server_linux_amd64"]
+CMD ["serveradmin_password=password"]
