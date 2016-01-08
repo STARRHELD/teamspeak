@@ -10,7 +10,6 @@ RUN curl -LO http://dl.4players.de/ts/releases/$TEAMSPEAK_VERSION/teamspeak3-ser
     && tar --strip-components=1 -xvf teamspeak3-server_linux-amd64-$TEAMSPEAK_VERSION.tar.gz \
     && rm teamspeak3-server_linux-amd64-$TEAMSPEAK_VERSION.tar.gz
 
-RUN touch ts3server.sqlitedb
 ENV LD_LIBRARY_PATH=.
 EXPOSE 9987/udp 10011 30033
 
